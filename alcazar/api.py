@@ -1,3 +1,5 @@
+from parse import parse
+
 from .requests import Request
 from .responses import Response
 
@@ -28,16 +30,19 @@ class API:
 
     def find_handler(self, path):
         for pattern, handler in self.routes.items():
-            if pattern == path:
-                return handler
+            result = parse(pattern, path)
+            if result is not None:
+                return handler, result.named
+
+        return None, None
 
     def dispatch_request(self, request):
         response = Response()
 
-        handler = self.find_handler(path=request.path)
+        handler, kwargs = self.find_handler(path=request.path)
 
         if handler is not None:
-            handler(request, response)
+            handler(request, response, **kwargs)
         else:
             self.default_response(response)
 
