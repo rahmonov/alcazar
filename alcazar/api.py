@@ -26,15 +26,21 @@ class API:
         response.status_code = 404
         response.text = "Not found."
 
+    def find_handler(self, path):
+        for pattern, handler in self.routes.items():
+            if pattern == path:
+                return handler
+
     def dispatch_request(self, request):
         response = Response()
 
-        for pattern, handler in self.routes.items():
-            if pattern == request.path:
-                handler(request, response)
-                return response
+        handler = self.find_handler(path=request.path)
 
-        self.default_response(response)
+        if handler is not None:
+            handler(request, response)
+        else:
+            self.default_response(response)
+
         return response
 
     def __call__(self, environ, start_response):
