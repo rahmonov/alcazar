@@ -1,18 +1,21 @@
+from .requests import Request
+from .responses import Response
 
 
 class API:
     def __init__(self):
         self.routes = []
 
+    def wsgi_app(self, environ, start_response):
+        request = Request(environ)
+        response = self.dispatch_request(request)
+
+        return response(environ, start_response)
+
+    def dispatch_request(self, request):
+        response = Response()
+        response.text = "Hello, hard-coded World!"
+        return response
+
     def __call__(self, environ, start_response):
-        data = b'Hello, World! I am Alcazar\n'
-        status = '200 OK'
-        response_headers = [
-            ('Content-type', 'text/plain'),
-            ('Content-Length', str(len(data)))
-        ]
-        start_response(status, response_headers)
-        return iter([data])
-
-
-api = API()
+        return self.wsgi_app(environ, start_response)

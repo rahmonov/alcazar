@@ -5,4 +5,4 @@
 
 ## How to run
 
-    gunicorn alcazar.api:api
+    gunicorn app:api
