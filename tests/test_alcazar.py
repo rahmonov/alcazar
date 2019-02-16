@@ -34,6 +34,14 @@ def test_route_overlap_throws_exception(api):
             resp.text = "Welcome Home2."
 
 
+def test_parameterized_route(api, client):
+    @api.route("/{name}")
+    def hello(req, resp, name):
+        resp.text = f"hey {name}"
+
+    assert client.get(url("/matthew")).text == "hey matthew"
+
+
 def test_alcazar_test_client_can_send_requests(api, client):
     RESPONSE_TEXT = "THIS IS COOL"
 
