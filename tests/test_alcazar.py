@@ -1,20 +1,8 @@
 import pytest
 
-import alcazar
-
-
-@pytest.fixture
-def api():
-    return alcazar.API()
-
 
 def url(s):
     return f"http://testserver{s}"
-
-
-@pytest.fixture
-def client(api):
-    return api.session()
 
 
 def test_basic_route(api):
