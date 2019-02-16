@@ -34,7 +34,7 @@ def test_route_overlap_throws_exception(api):
             resp.text = "Welcome Home2."
 
 
-def test_alcazat_test_client_can_send_requests(api, client):
+def test_alcazar_test_client_can_send_requests(api, client):
     RESPONSE_TEXT = "THIS IS COOL"
 
     @api.route("/hey")
