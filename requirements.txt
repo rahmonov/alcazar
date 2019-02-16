@@ -1,0 +1,5 @@
+gunicorn==19.9.0
+starlette==0.10.3
+pytest==4.2.1
+requests==2.21.0
+WebOb==1.8.5

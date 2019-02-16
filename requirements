@@ -1,2 +1,0 @@
-gunicorn==19.9.0
-WebOb==1.8.5

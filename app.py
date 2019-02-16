@@ -13,11 +13,11 @@ def about_page(req, resp):
     resp.text = "Hello, this is an about page."
 
 
-@api.route("/{name}")
-def greeting(req, resp, name):
-    resp.text = f"Hello, {name}"
-
-
 @api.route("/{age:d}")
 def tell_age(req, resp, age):
     resp.text = f"Your age is {age}"
+
+
+@api.route("/{name}")
+def greeting(req, resp, name):
+    resp.text = f"Hello, {name}"

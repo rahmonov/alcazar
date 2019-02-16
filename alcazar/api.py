@@ -1,4 +1,5 @@
 from parse import parse
+from starlette.testclient import TestClient
 
 from .requests import Request
 from .responses import Response
@@ -8,10 +9,15 @@ class API:
     def __init__(self):
         self.routes = {}
 
+        # cached request session
+        self._session = None
+
     def route(self, pattern):
         """
         Add a new route
         """
+        assert pattern not in self.routes
+
         def wrapper(handler):
             self.routes[pattern] = handler
             return handler
@@ -47,6 +53,12 @@ class API:
             self.default_response(response)
 
         return response
+
+    def session(self):
+        """Cached Testing HTTP client"""
+        if self._session is None:
+            self._session = TestClient(self)
+        return self._session
 
     def __call__(self, environ, start_response):
         return self.wsgi_app(environ, start_response)
