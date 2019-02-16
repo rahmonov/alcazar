@@ -1,5 +1,6 @@
 from parse import parse
-from starlette.testclient import TestClient
+from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
+from requests import Session as RequestsSession
 
 from .requests import Request
 from .responses import Response
@@ -54,10 +55,12 @@ class API:
 
         return response
 
-    def session(self):
-        """Cached Testing HTTP client"""
+    def session(self, base_url="http://testserver"):
+        """Cached Testing HTTP client based on Requests by Kenneth Reitz."""
         if self._session is None:
-            self._session = TestClient(self)
+            session = RequestsSession()
+            session.mount(base_url, RequestsWSGIAdapter(self))
+            self._session = session
         return self._session
 
     def __call__(self, environ, start_response):
