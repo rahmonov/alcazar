@@ -37,8 +37,24 @@ def test_route_overlap_throws_exception(api):
 def test_alcazar_test_client_can_send_requests(api, client):
     RESPONSE_TEXT = "THIS IS COOL"
 
-    @api.route("/hey")
+    @api.route("/cool")
     def cool(req, resp):
         resp.text = RESPONSE_TEXT
 
-    assert client.get(url("/hey")).text == RESPONSE_TEXT
+    assert client.get(url("/cool")).text == RESPONSE_TEXT
+
+
+def test_status_code_is_returned(api, client):
+    @api.route("/cool")
+    def cool(req, resp):
+        resp.text = "cool thing"
+        resp.status_code = 215
+
+    assert client.get(url("/cool")).status_code == 215
+
+
+def test_default_404_response(client):
+    response = client.get(url("/doesnotexist"))
+
+    assert response.status_code == 404
+    assert response.text == "Not found."

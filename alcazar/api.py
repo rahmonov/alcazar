@@ -10,7 +10,7 @@ class API:
     def __init__(self):
         self.routes = {}
 
-        # cached request session
+        # cached requests session
         self._session = None
 
     def route(self, pattern):
