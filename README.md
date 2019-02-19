@@ -79,7 +79,7 @@ gunicorn app:api
 ## Coming soon
 
 - Support for static files
-...
+- ...
 
 ## Note
 
