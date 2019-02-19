@@ -18,7 +18,13 @@ def tell_age(req, resp, age):
     resp.text = f"Your age is {age}"
 
 
-@api.route("/{name}")
+@api.route("/{name:s}")
 class GreetingHandler:
     def get(self, req, resp, name):
         resp.text = f"Hello, {name}"
+
+
+@api.route("/show/template")
+def handler_with_template(req, resp):
+    resp.text = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
+    resp.content_type = "text/html"

@@ -1,3 +1,4 @@
+import os
 import inspect
 from parse import parse
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
@@ -6,10 +7,18 @@ from requests import Session as RequestsSession
 from .requests import Request
 from .responses import Response
 
+# jinja
+from jinja2 import Environment, FileSystemLoader
+
+
+def get_templates_env(templates_dir):
+    return Environment(loader=FileSystemLoader(templates_dir), autoescape=(["html", "xml"]))
+
 
 class API:
-    def __init__(self):
+    def __init__(self, templates_dir="templates"):
         self.routes = {}
+        self.templates = get_templates_env(os.path.abspath(templates_dir))
 
         # cached requests session
         self._session = None
@@ -25,6 +34,9 @@ class API:
             return handler
 
         return wrapper
+
+    def template(self, name, context):
+        return self.templates.get_template(name).render(**context)
 
     def wsgi_app(self, environ, start_response):
         request = Request(environ)
@@ -71,3 +83,4 @@ class API:
 
     def __call__(self, environ, start_response):
         return self.wsgi_app(environ, start_response)
+

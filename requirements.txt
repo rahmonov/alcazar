@@ -1,4 +1,5 @@
 gunicorn==19.9.0
+Jinja2==2.10
 requests-wsgi-adapter==0.4.0
 pytest==4.2.1
 requests==2.21.0
