@@ -4,7 +4,7 @@
 
 ---
 
-[![purpose](https://img.shields.io/badge/purpose-learning-green.svg)][purpose-url]
+![purpose](https://img.shields.io/badge/purpose-learning-green.svg)
 
 # Alcazar
 
