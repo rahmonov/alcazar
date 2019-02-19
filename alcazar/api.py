@@ -6,13 +6,7 @@ from requests import Session as RequestsSession
 
 from .requests import Request
 from .responses import Response
-
-# jinja
-from jinja2 import Environment, FileSystemLoader
-
-
-def get_templates_env(templates_dir):
-    return Environment(loader=FileSystemLoader(templates_dir), autoescape=(["html", "xml"]))
+from .templates import get_templates_env
 
 
 class API:
