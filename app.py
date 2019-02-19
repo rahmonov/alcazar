@@ -19,5 +19,6 @@ def tell_age(req, resp, age):
 
 
 @api.route("/{name}")
-def greeting(req, resp, name):
-    resp.text = f"Hello, {name}"
+class GreetingHandler:
+    def get(self, req, resp, name):
+        resp.text = f"Hello, {name}"
