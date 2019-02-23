@@ -85,3 +85,7 @@ gunicorn app:api
 
 It is extremely raw and will hopefully keep improving. If you are interested in knowing how a particular feature is implemented in other
 frameworks, please open an issue and we will hopefully implement and explain it in a blog post.
+
+## TODO: add a section explaining how to write unit tests with Alcazar.
+     - Built in fixtures
+     - Client to send an HTTP request
