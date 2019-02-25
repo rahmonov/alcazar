@@ -1,8 +1,6 @@
 import pytest
 
-
-def url(s):
-    return f"http://testserver{s}"
+from contrib.tests import url
 
 
 def test_basic_route(api):
