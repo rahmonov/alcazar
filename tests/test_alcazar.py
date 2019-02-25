@@ -93,3 +93,6 @@ def test_class_based_handler_not_allowed_method(api, client):
 
     with pytest.raises(AttributeError):
         client.get(url("/book"))
+
+
+# todo: test for Response helper functions: json, html, text, body, status_codes and content types
