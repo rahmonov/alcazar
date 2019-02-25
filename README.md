@@ -8,8 +8,8 @@
 
 # Alcazar
 
-Alcazar is a Python Web Framework built for learning purposes. The plan is to learn how frameworks are built by implement their features,
-writing blog posts about them and keeping the codebase as small as possible.
+Alcazar is a Python Web Framework built for learning purposes. The plan is to learn how frameworks are built by implementing their features,
+writing blog posts about them and keeping the codebase as simple as possible.
 
 It is a WSGI framework and can be used with any WSGI application server such as Gunicorn.
 
