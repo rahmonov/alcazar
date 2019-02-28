@@ -59,8 +59,18 @@ class GreetingHandler:
 
 @api.route("/show/template")
 def handler_with_template(req, resp):
-    resp.text = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
-    resp.content_type = "text/html"
+    resp.html = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
+
+
+@api.route("/json")
+def json_handler(req, resp):
+    resp.json = {"this": "is JSON"}
+
+
+@api.route("/custom")
+def custom_response(req, resp):
+    resp.body = b'any other body'
+    resp.content_type = "text/plain"
 ```
 
 Start:

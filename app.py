@@ -32,3 +32,9 @@ def handler_with_template(req, resp):
 @api.route("/give/json")
 def json_handler(req, resp):
     resp.json = {"This": "IS JSON!!!"}
+
+
+@api.route("/custom")
+def custom_response(req, resp):
+    resp.text = 'any other body'
+    resp.content_type = "text/plain"
