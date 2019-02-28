@@ -18,16 +18,18 @@ class API:
         self._session = None
 
     def route(self, pattern):
-        """
-        Add a new route
-        """
-        assert pattern not in self.routes
-
+        """ Decorator that adds a new route """
         def wrapper(handler):
-            self.routes[pattern] = handler
+            self.add_route(pattern, handler)
             return handler
 
         return wrapper
+
+    def add_route(self, pattern, handler):
+        """ Add a new route """
+        assert pattern not in self.routes
+
+        self.routes[pattern] = handler
 
     def template(self, name, context):
         return self.templates.get_template(name).render(**context)

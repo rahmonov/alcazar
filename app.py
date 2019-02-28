@@ -38,3 +38,10 @@ def json_handler(req, resp):
 def custom_response(req, resp):
     resp.text = 'any other body'
     resp.content_type = "text/plain"
+
+
+def handler_to_add(req, resp):
+    resp.json = {"Added by": "alternative method"}
+
+
+api.add_route("/alternative", handler_to_add)
