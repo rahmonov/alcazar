@@ -6,24 +6,44 @@ from contrib.tests import url
 def test_basic_route(api):
     @api.route("/")
     def home(req, resp):
-        resp.body = "Welcome Home."
+        resp.text = "Welcome Home."
+
+
+def test_basic_alternative_route(api):
+    def home(req, resp):
+        resp.text = "Alternative way to add a route"
+
+    api.add_route("/alternative", home)
 
 
 def test_route_overlap_throws_exception(api):
     @api.route("/")
     def home(req, resp):
-        resp.body = "Welcome Home."
+        resp.text = "Welcome Home."
 
     with pytest.raises(AssertionError):
         @api.route("/")
         def home2(req, resp):
-            resp.body = "Welcome Home2."
+            resp.text = "Welcome Home2."
+
+
+def test_alternative_route_overlap_throws_exception(api):
+    def home(req, resp):
+        resp.text = "Welcome Home."
+
+    def home2(req, resp):
+        resp.text = "Welcome Home2."
+
+    api.add_route("/alternative", home)
+
+    with pytest.raises(AssertionError):
+        api.add_route("/alternative", home2)
 
 
 def test_parameterized_route(api, client):
     @api.route("/{name}")
     def hello(req, resp, name):
-        resp.body = f"hey {name}"
+        resp.text = f"hey {name}"
 
     assert client.get(url("/matthew")).text == "hey matthew"
 
@@ -33,7 +53,7 @@ def test_alcazar_test_client_can_send_requests(api, client):
 
     @api.route("/cool")
     def cool(req, resp):
-        resp.body = RESPONSE_TEXT
+        resp.text = RESPONSE_TEXT
 
     assert client.get(url("/cool")).text == RESPONSE_TEXT
 
@@ -41,7 +61,7 @@ def test_alcazar_test_client_can_send_requests(api, client):
 def test_status_code_is_returned(api, client):
     @api.route("/cool")
     def cool(req, resp):
-        resp.body = "cool thing"
+        resp.text = "cool thing"
         resp.status_code = 215
 
     assert client.get(url("/cool")).status_code == 215
@@ -58,7 +78,7 @@ def test_class_based_handler_route_registration(api):
     @api.route("/book")
     class BookResource:
         def get(self, req, resp):
-            resp.body = "yolo"
+            resp.text = "yolo"
 
 
 def test_class_based_handler_get(api, client):
@@ -67,9 +87,7 @@ def test_class_based_handler_get(api, client):
     @api.route("/book")
     class BookResource:
         def get(self, req, resp):
-            resp.body = response_text
-
-    client.get(url("/book"))
+            resp.text = response_text
 
     assert client.get(url("/book")).text == response_text
 
@@ -80,7 +98,7 @@ def test_class_based_handler_post(api, client):
     @api.route("/book")
     class BookResource:
         def post(self, req, resp):
-            resp.body = response_text
+            resp.text = response_text
 
     assert client.post(url("/book")).text == response_text
 
@@ -89,7 +107,7 @@ def test_class_based_handler_not_allowed_method(api, client):
     @api.route("/book")
     class BookResource:
         def post(self, req, resp):
-            resp.body = "yolo"
+            resp.text = "yolo"
 
     with pytest.raises(AttributeError):
         client.get(url("/book"))
