@@ -58,7 +58,7 @@ def test_alcazar_test_client_can_send_requests(api, client):
     assert client.get(url("/cool")).text == RESPONSE_TEXT
 
 
-def test_status_code_is_returned(api, client):
+def test_status_code(api, client):
     @api.route("/cool")
     def cool(req, resp):
         resp.text = "cool thing"
@@ -113,4 +113,50 @@ def test_class_based_handler_not_allowed_method(api, client):
         client.get(url("/book"))
 
 
-# todo: test for Response helper functions: json, html, text, body, status_codes and content types
+def test_json_response_helper(api, client):
+    @api.route("/json")
+    def json_handler(req, resp):
+        resp.json = {"name": "alcazar"}
+
+    response = client.get(url("/json"))
+    json_body = response.json()
+
+    assert response.headers["Content-Type"] == "application/json"
+    assert json_body["name"] == "alcazar"
+
+
+def test_html_response_helper(api, client):
+    @api.route("/html")
+    def html_handler(req, resp):
+        resp.html = api.template("example.html", context={"title": "Best Title", "body": "Best Body"})
+
+    response = client.get(url("/html"))
+
+    assert "text/html" in response.headers["Content-Type"]
+    assert "Best Title" in response.text
+    assert "Best Body" in response.text
+
+
+def test_text_response_helper(api, client):
+    response_text = "Just Plain Text"
+
+    @api.route("/text")
+    def text_handler(req, resp):
+        resp.text = response_text
+
+    response = client.get(url("/text"))
+
+    assert "text/plain" in response.headers["Content-Type"]
+    assert response.text == response_text
+
+
+def test_manually_setting_body(api, client):
+    @api.route("/body")
+    def text_handler(req, resp):
+        resp.body = b"Byte Body"
+        resp.content_type = "text/plain"
+
+    response = client.get(url("/body"))
+
+    assert "text/plain" in response.headers["Content-Type"]
+    assert response.text == "Byte Body"

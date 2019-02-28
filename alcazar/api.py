@@ -31,7 +31,10 @@ class API:
 
         self.routes[pattern] = handler
 
-    def template(self, name, context):
+    def template(self, name, context=None):
+        if context is None:
+            context = {}
+
         return self.templates.get_template(name).render(**context)
 
     def wsgi_app(self, environ, start_response):
