@@ -13,6 +13,14 @@ writing blog posts about them and keeping the codebase as simple as possible.
 
 It is a WSGI framework and can be used with any WSGI application server such as Gunicorn.
 
+## Inspiration
+
+I was inspired to make a web framework after reading [Florimond Monca](https://twitter.com/FlorimondManca)'s [blog post](https://blog.florimondmanca.com/how-i-built-a-web-framework-and-became-an-open-source-maintainer)
+about how he built a web framework and became an open source maintainer. He wrote about how thrilling the experience has been for him so I decided I would give it a try as well.
+Thank you, [Florimond](https://github.com/florimondmanca) and of course [Kenneth Reitz](https://twitter.com/kennethreitz) who in turn inspired Florimond to write a framework with
+his own framework [Responder](https://github.com/kennethreitz/responder). Go check out both [Bocadillo by Florimond Monca](https://github.com/bocadilloproject/bocadillo) and [Responder by Kenneth Reitz](https://github.com/kennethreitz/responder).
+If you like them, show some love by staring their repos.
+
 ## Blog posts
 
 - [Part I: Intro, API, request handlers, routing (both simple and parameterized)](http://rahmonov.me/posts/write-python-framework-part-one/)
