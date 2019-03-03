@@ -1,6 +1,7 @@
 import os
 import inspect
 from parse import parse
+from whitenoise import WhiteNoise
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from requests import Session as RequestsSession
 
@@ -10,9 +11,12 @@ from .templates import get_templates_env
 
 
 class API:
-    def __init__(self, templates_dir="templates"):
+    def __init__(self, templates_dir="templates", static_dir="static"):
         self.routes = {}
         self.templates = get_templates_env(os.path.abspath(templates_dir))
+        self.static_dir = os.path.abspath(static_dir)
+
+        self.whitenoise = WhiteNoise(self.wsgi_app, root=self.static_dir)
 
         # cached requests session
         self._session = None
@@ -81,5 +85,4 @@ class API:
         return self._session
 
     def __call__(self, environ, start_response):
-        return self.wsgi_app(environ, start_response)
-
+        return self.whitenoise(environ, start_response)
