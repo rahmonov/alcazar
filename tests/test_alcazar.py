@@ -1,6 +1,6 @@
 import pytest
 
-from contrib.tests import url
+from utils.tests import url
 
 
 def test_basic_route(api):
