@@ -16,8 +16,6 @@ class API:
         self.templates = get_templates_env(os.path.abspath(templates_dir))
         self.static_dir = os.path.abspath(static_dir)
 
-        self.whitenoise = WhiteNoise(self.wsgi_app, root=self.static_dir)
-
         # cached requests session
         self._session = None
 
@@ -41,11 +39,15 @@ class API:
 
         return self.templates.get_template(name).render(**context)
 
-    def wsgi_app(self, environ, start_response):
+    def _wsgi_app(self, environ, start_response):
         request = Request(environ)
         response = self.dispatch_request(request)
 
         return response(environ, start_response)
+
+    def as_wsgi_app(self, environ, start_response):
+        white_noise = WhiteNoise(self._wsgi_app, root=self.static_dir)
+        return white_noise(environ, start_response)
 
     def default_response(self, response):
         response.status_code = 404
@@ -85,4 +87,4 @@ class API:
         return self._session
 
     def __call__(self, environ, start_response):
-        return self.whitenoise(environ, start_response)
+        return self.as_wsgi_app(environ, start_response)
