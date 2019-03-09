@@ -156,7 +156,7 @@ Then you can use the files inside this folder in HTML files:
   <meta charset="UTF-8">
   <title>{{title}}</title>
 
-  <link href="main.css" rel="stylesheet" type="text/css">
+  <link href="/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
