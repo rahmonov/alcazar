@@ -25,7 +25,8 @@ If you like them, show some love by staring their repos.
 
 - [Part I: Intro, API, request handlers, routing (both simple and parameterized)](http://rahmonov.me/posts/write-python-framework-part-one/)
 - [Part II: class based handlers, route overlap check, unit tests](http://rahmonov.me/posts/write-python-framework-part-two/)
-- [Part III: template support and etc. (to be decided)]
+- [Part III: templates support, test client, django way of adding routes](http://rahmonov.me/posts/write-python-framework-part-three/)
+- [Part IV: coming soon...]
 
 ## Quick Start
 
@@ -118,9 +119,52 @@ def test_parameterized_route(api, client):
 Note that there is a `url()` function used. It is used to generate the absolute url of the request given a relative url. Import it before usage:
 
 ```python
-from contrib.tests import url
+from utils.tests import url
 ```
 
+## Templates
+
+The default folder for templates is `templates`. You can change it when initializing the `API()` class:
+
+```python
+api = API(templates_dir="templates_dir_name")
+```
+
+Then you can use HTML files in that folder like so in a handler:
+
+```python
+@api.route("/show/template")
+def handler_with_template(req, resp):
+    resp.html = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
+```
+
+## Static Files
+
+Just like templates, the default folder for static files is `static` and you can override it:
+
+```python
+api = API(static_dir="static_dir_name")
+```
+
+Then you can use the files inside this folder in HTML files:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+
+  <link href="main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <h1>{{body}}</h1>
+    <p>This is a paragraph</p>
+</body>
+</html>
+```
 
 ## Features
 
@@ -129,14 +173,9 @@ from contrib.tests import url
 - Class based handlers
 - Test Client
 - Support for templates
-
-## Coming soon
-
 - Support for static files
-- ...
 
 ## Note
 
 It is extremely raw and will hopefully keep improving. If you are interested in knowing how a particular feature is implemented in other
 frameworks, please open an issue and we will hopefully implement and explain it in a blog post.
-
