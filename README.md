@@ -40,43 +40,43 @@ Basic Usage:
 
 ```python
 # app.py
-from alcazar.api import API
+from alcazar import Alcazar
 
-api = API()
+app = Alcazar()
 
 
-@api.route("/")
+@app.route("/")
 def home(req, resp):
     resp.text = "Hello, this is a home page."
 
 
-@api.route("/about")
+@app.route("/about")
 def about_page(req, resp):
     resp.text = "Hello, this is an about page."
 
 
-@api.route("/{age:d}")
+@app.route("/{age:d}")
 def tell_age(req, resp, age):
     resp.text = f"Your age is {age}"
 
 
-@api.route("/{name:s}")
+@app.route("/{name:s}")
 class GreetingHandler:
     def get(self, req, resp, name):
         resp.text = f"Hello, {name}"
 
 
-@api.route("/show/template")
+@app.route("/show/template")
 def handler_with_template(req, resp):
-    resp.html = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
+    resp.html = app.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
 
 
-@api.route("/json")
+@app.route("/json")
 def json_handler(req, resp):
     resp.json = {"this": "is JSON"}
 
 
-@api.route("/custom")
+@app.route("/custom")
 def custom_response(req, resp):
     resp.body = b'any other body'
     resp.content_type = "text/plain"
@@ -85,22 +85,22 @@ def custom_response(req, resp):
 Start:
 
 ```bash
-gunicorn app:api
+gunicorn app:app
 ```
 
 ## Unit Tests
 
 The recommended way of writing unit tests is with [pytest](https://docs.pytest.org/en/latest/). There are two built in fixtures
-that you may want to use when writing unit tests with Alcazar. The first one is `api` which is an instance of the main `API` class:
+that you may want to use when writing unit tests with Alcazar. The first one is `app` which is an instance of the main `Alcazar` class:
 
 ```python
-def test_route_overlap_throws_exception(api):
-    @api.route("/")
+def test_route_overlap_throws_exception(app):
+    @app.route("/")
     def home(req, resp):
         resp.text = "Welcome Home."
 
     with pytest.raises(AssertionError):
-        @api.route("/")
+        @app.route("/")
         def home2(req, resp):
             resp.text = "Welcome Home2."
 ```
@@ -108,8 +108,8 @@ def test_route_overlap_throws_exception(api):
 The other one is `client` that you can use to send HTTP requests to your handlers. It is based on the famous [requests](http://docs.python-requests.org/en/master/) and it should feel very familiar:
 
 ```python
-def test_parameterized_route(api, client):
-    @api.route("/{name}")
+def test_parameterized_route(app, client):
+    @app.route("/{name}")
     def hello(req, resp, name):
         resp.text = f"hey {name}"
 
@@ -124,18 +124,18 @@ from utils.tests import url
 
 ## Templates
 
-The default folder for templates is `templates`. You can change it when initializing the `API()` class:
+The default folder for templates is `templates`. You can change it when initializing the main `Alcazar()` class:
 
 ```python
-api = API(templates_dir="templates_dir_name")
+app = Alcazar(templates_dir="templates_dir_name")
 ```
 
 Then you can use HTML files in that folder like so in a handler:
 
 ```python
-@api.route("/show/template")
+@app.route("/show/template")
 def handler_with_template(req, resp):
-    resp.html = api.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
+    resp.html = app.template("example.html", context={"title": "Awesome Framework", "body": "welcome to the future!"})
 ```
 
 ## Static Files
@@ -143,7 +143,7 @@ def handler_with_template(req, resp):
 Just like templates, the default folder for static files is `static` and you can override it:
 
 ```python
-api = API(static_dir="static_dir_name")
+app = Alcazar(static_dir="static_dir_name")
 ```
 
 Then you can use the files inside this folder in HTML files:
@@ -179,3 +179,16 @@ Then you can use the files inside this folder in HTML files:
 
 It is extremely raw and will hopefully keep improving. If you are interested in knowing how a particular feature is implemented in other
 frameworks, please open an issue and we will hopefully implement and explain it in a blog post.
+
+## TODO:
+
+- add travis builds and a badge
+- API() -> Alcazar()
+- add exception handler and demo it with 500 and 404 pages
+
+
+## TODO for blog:
+
+- static files support
+- custom exception handlers
+-

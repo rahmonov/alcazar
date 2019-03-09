@@ -4,10 +4,10 @@ import alcazar
 
 
 @pytest.fixture
-def api():
-    return alcazar.API()
+def app():
+    return alcazar.Alcazar()
 
 
 @pytest.fixture
-def client(api):
-    return api.session()
+def client(app):
+    return app.session()

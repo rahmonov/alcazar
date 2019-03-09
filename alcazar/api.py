@@ -10,7 +10,7 @@ from .responses import Response
 from .templates import get_templates_env
 
 
-class API:
+class Alcazar:
     def __init__(self, templates_dir="templates", static_dir="static"):
         self.routes = {}
         self.templates = get_templates_env(os.path.abspath(templates_dir))
