@@ -4,5 +4,4 @@ __pycache__/
 *.pyc
 .pytest_cache
 app.py
-templates
 static

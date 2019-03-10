@@ -5,7 +5,7 @@ import alcazar
 
 @pytest.fixture
 def app():
-    return alcazar.Alcazar()
+    return alcazar.Alcazar(templates_dir="tests/templates")
 
 
 @pytest.fixture
