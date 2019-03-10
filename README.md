@@ -175,6 +175,7 @@ Then you can use the files inside this folder in HTML files:
 - Test Client
 - Support for templates
 - Support for static files
+- Custom exception handlers
 
 ## Note
 
@@ -183,7 +184,6 @@ frameworks, please open an issue and we will hopefully implement and explain it 
 
 ## TODO:
 
-- add exception handler and demo it with 500 and 404 pages
 - add allowed methods to `api.route()` should work only for function based handlers
 - in tests, create a factory function/class that creates handlers (function based, class based)
 - add more tests and rearrange them into files and folders

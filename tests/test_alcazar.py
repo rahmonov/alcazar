@@ -67,13 +67,6 @@ def test_status_code(app, client):
     assert client.get(url("/cool")).status_code == 215
 
 
-def test_default_404_response(client):
-    response = client.get(url("/doesnotexist"))
-
-    assert response.status_code == 404
-    assert response.text == "Not found."
-
-
 def test_class_based_handler_route_registration(app):
     @app.route("/book")
     class BookResource:
@@ -160,3 +153,27 @@ def test_manually_setting_body(app, client):
 
     assert "text/plain" in response.headers["Content-Type"]
     assert response.text == "Byte Body"
+
+
+def test_custom_error_handler(app, client):
+    def on_attribute_error(req, resp, exc):
+        resp.text = "AttributeErrorHappened"
+
+    app.add_exception_handler(AttributeError, on_attribute_error)
+
+    @app.route("/")
+    def index(req, resp):
+        raise AttributeError()
+
+    response = client.get(url("/"))
+
+    assert response.text == "AttributeErrorHappened"
+
+
+def test_exception_is_propogated_if_no_exc_handler_is_defined(app, client):
+    @app.route("/")
+    def index(req, resp):
+        raise AttributeError()
+
+    with pytest.raises(AttributeError):
+        client.get(url("/"))
