@@ -6,17 +6,21 @@ from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from requests import Session as RequestsSession
 
 from .exceptions import HTTPError
+from .error_handlers import debug_http_error_handler
 from .requests import Request
 from .responses import Response
 from .templates import get_templates_env
 
 
 class Alcazar:
-    def __init__(self, templates_dir="templates", static_dir="static"):
+    def __init__(self, templates_dir="templates", static_dir="static", debug=True):
         self.templates = get_templates_env(os.path.abspath(templates_dir))
         self.static_dir = os.path.abspath(static_dir)
         self._routes = {}
         self._exception_handlers = []
+
+        if debug:
+            self.add_exception_handler(HTTPError, debug_http_error_handler)
 
         # cached requests session
         self._session = None

@@ -184,6 +184,7 @@ frameworks, please open an issue and we will hopefully implement and explain it 
 
 ## TODO:
 
+- add tests for debug http error handler
 - add allowed methods to `api.route()` should work only for function based handlers
 - in tests, create a factory function/class that creates handlers (function based, class based)
 - add more tests and rearrange them into files and folders
