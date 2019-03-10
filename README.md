@@ -5,6 +5,7 @@
 ---
 
 ![purpose](https://img.shields.io/badge/purpose-learning-green.svg)
+[![travis](https://travis-ci.org/rahmonov/alcazar.svg?branch=master)](https://travis-ci.org/rahmonov/alcazar)
 
 # Alcazar
 
