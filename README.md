@@ -33,7 +33,7 @@ If you like them, show some love by staring their repos.
 Install it:
 
 ```bash
-# TODO: pip install alcazarpy
+# TODO: pip install alcazar-web-framework
 ```
 
 Basic Usage:
@@ -183,8 +183,9 @@ frameworks, please open an issue and we will hopefully implement and explain it 
 ## TODO:
 
 - add travis builds and a badge
-- API() -> Alcazar()
 - add exception handler and demo it with 500 and 404 pages
+- add allowed methods to `api.route()` should work only for function based handlers
+- in tests, create a factory function/class that creates handlers (function based, class based)
 
 
 ## TODO for blog:
