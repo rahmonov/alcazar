@@ -1,5 +1,6 @@
 import pytest
 
+import alcazar
 from utils.tests import url
 
 
@@ -156,10 +157,10 @@ def test_manually_setting_body(app, client):
 
 
 def test_custom_error_handler(app, client):
-    def on_attribute_error(req, resp, exc):
+    def on_exception(req, resp, exc):
         resp.text = "AttributeErrorHappened"
 
-    app.add_exception_handler(AttributeError, on_attribute_error)
+    app.add_exception_handler(on_exception)
 
     @app.route("/")
     def index(req, resp):

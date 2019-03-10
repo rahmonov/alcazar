@@ -6,7 +6,7 @@ from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from requests import Session as RequestsSession
 
 from .exceptions import HTTPError
-from .error_handlers import debug_http_error_handler
+from .error_handlers import debug_exception_handler
 from .requests import Request
 from .responses import Response
 from .templates import get_templates_env
@@ -16,14 +16,16 @@ class Alcazar:
     def __init__(self, templates_dir="templates", static_dir="static", debug=True):
         self.templates = get_templates_env(os.path.abspath(templates_dir))
         self.static_dir = os.path.abspath(static_dir)
+        self._debug = debug
         self._routes = {}
-        self._exception_handlers = []
-
-        if debug:
-            self.add_exception_handler(HTTPError, debug_http_error_handler)
+        self._exception_handler = None
 
         # cached requests session
         self._session = None
+
+    @property
+    def debug(self):
+        return self._debug
 
     def route(self, pattern):
         """ Decorator that adds a new route """
@@ -39,20 +41,17 @@ class Alcazar:
 
         self._routes[pattern] = handler
 
-    def add_exception_handler(self, exception_cls, handler):
-        self._exception_handlers.insert(0, (exception_cls, handler))
-
-    def _find_exception_handler(self, exception):
-        for exception_cls, handler in self._exception_handlers:
-            if isinstance(exception, exception_cls):
-                return handler
+    def add_exception_handler(self, handler):
+        self._exception_handler = handler
 
     def _handle_exception(self, request, response, exception):
-        exception_handler = self._find_exception_handler(exception)
-        if exception_handler is None:
-            raise exception
+        if self._exception_handler is not None:
+            self._exception_handler(request, response, exception)
+        else:
+            if self._debug is False:
+                raise exception
 
-        exception_handler(request, response, exception)
+            debug_exception_handler(request, response, exception)
 
     def template(self, name, context=None):
         if context is None:
