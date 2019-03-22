@@ -26,19 +26,19 @@ class Alcazar:
     def debug(self):
         return self._debug
 
-    def route(self, pattern):
+    def route(self, pattern, methods=None):
         """ Decorator that adds a new route """
         def wrapper(handler):
-            self.add_route(pattern, handler)
+            self.add_route(pattern, handler, methods)
             return handler
 
         return wrapper
 
-    def add_route(self, pattern, handler):
+    def add_route(self, pattern, handler, methods=None):
         """ Add a new route """
         assert pattern not in self._routes
 
-        self._routes[pattern] = Route(path_pattern=pattern, handler=handler)
+        self._routes[pattern] = Route(path_pattern=pattern, handler=handler, methods=methods)
 
     def add_exception_handler(self, handler):
         self._exception_handler = handler
