@@ -1,10 +1,9 @@
 import os
-import inspect
-from parse import parse
 from whitenoise import WhiteNoise
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from requests import Session as RequestsSession
 
+from alcazar.route import Route
 from .exceptions import HTTPError
 from .error_handlers import debug_exception_handler
 from .requests import Request
@@ -39,7 +38,7 @@ class Alcazar:
         """ Add a new route """
         assert pattern not in self._routes
 
-        self._routes[pattern] = handler
+        self._routes[pattern] = Route(path_pattern=pattern, handler=handler)
 
     def add_exception_handler(self, handler):
         self._exception_handler = handler
@@ -59,33 +58,28 @@ class Alcazar:
 
         return self.templates.get_template(name).render(**context)
 
-    def find_handler(self, path):
-        for pattern, handler in self._routes.items():
-            result = parse(pattern, path)
-            if result is not None:
-                return handler, result.named
-
-        return None, None
-
     def dispatch_request(self, request):
         response = Response()
 
-        handler, kwargs = self.find_handler(path=request.path)
+        route, kwargs = self.find_route(path=request.path)
 
         try:
-            if handler is None:
+            if route is None:
                 raise HTTPError(status=404)
 
-            if inspect.isclass(handler):
-                handler = getattr(handler(), request.method.lower(), None)
-                if handler is None:
-                    raise AttributeError("Method not allowed", request.method)
-
-            handler(request, response, **kwargs)
+            route.handle_request(request, response, **kwargs)
         except Exception as e:
             self._handle_exception(request, response, e)
 
         return response
+
+    def find_route(self, path):
+        for pattern, route in self._routes.items():
+            matched, kwargs = route.match(request_path=path)
+            if matched is True:
+                return route, kwargs
+
+        return None, {}
 
     def session(self, base_url="http://testserver"):
         """Cached Testing HTTP client based on Requests by Kenneth Reitz."""
