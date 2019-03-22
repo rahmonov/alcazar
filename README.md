@@ -167,6 +167,31 @@ Then you can use the files inside this folder in HTML files:
 </html>
 ```
 
+## Custom Exception Handler
+
+Sometimes, depending on the exception raised, you may want to do a certain action. For such cases, you can register an exception handler:
+
+```python
+def on_exception(req, resp, exception):
+    if isinstance(exception, HTTPError):
+        if exception.status == 404:
+            resp.text = "Unfortunately the thing you were looking for was not found"
+        else:
+            resp.text = str(exception)
+    else:
+        # unexpected exceptions
+        if app.debug:
+            debug_exception_handler(req, resp, exception)
+        else:
+            print("These unexpected exceptions should be logged.")
+
+app = Alcazar(debug=False)
+app.add_exception_handler(on_exception)
+```
+
+This exception handler will catch 404 HTTPErrors and change the text to `"Unfortunately the thing you were looking for was not found"`. For other HTTPErrors, it will simply
+show the exception message. If the raised exception is not an HTTPError and if `debug` is set to True, it will show the exception and its traceback. Otherwise, it will log it.
+
 ## Features
 
 - WSGI compatible
@@ -175,7 +200,7 @@ Then you can use the files inside this folder in HTML files:
 - Test Client
 - Support for templates
 - Support for static files
-- Custom exception handlers
+- Custom exception handler
 
 ## Note
 
