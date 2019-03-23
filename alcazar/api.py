@@ -3,7 +3,7 @@ from whitenoise import WhiteNoise
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 from requests import Session as RequestsSession
 
-from alcazar.route import Route
+from .route import Route
 from .exceptions import HTTPError
 from .error_handlers import debug_exception_handler
 from .requests import Request

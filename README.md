@@ -89,6 +89,28 @@ Start:
 gunicorn app:app
 ```
 
+## Handlers
+
+If you use class based handlers, only the methods that you implement will be allowed:
+
+```python
+@app.route("/{name:s}")
+class GreetingHandler:
+    def get(self, req, resp, name):
+        resp.text = f"Hello, {name}"
+```
+
+This handler will only allow `GET` requests. That is, `POST` and others will be rejected. The same thing can be done with
+function based handlers in the following way:
+
+```python
+@app.route("/", methods=["get"])
+def home(req, resp):
+    resp.text = "Hello, this is a home page."
+```
+
+Note that if you specify `methods` for class based handlers, they will be ignored.
+
 ## Unit Tests
 
 The recommended way of writing unit tests is with [pytest](https://docs.pytest.org/en/latest/). There are two built in fixtures
