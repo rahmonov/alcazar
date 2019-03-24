@@ -214,6 +214,26 @@ app.add_exception_handler(on_exception)
 This exception handler will catch 404 HTTPErrors and change the text to `"Unfortunately the thing you were looking for was not found"`. For other HTTPErrors, it will simply
 show the exception message. If the raised exception is not an HTTPError and if `debug` is set to True, it will show the exception and its traceback. Otherwise, it will log it.
 
+## Middleware
+
+You can create custom middleware classes by inheriting from the `alcazar.middleware.Middleware` class and override its two methods
+that are called before and after each request:
+
+```python
+app = Alcazar()
+
+
+class SimpleCustomMiddleware(Middleware):
+    def process_request(self, req):
+        print("Before dispatch", req.url)
+
+    def process_response(self, req, res):
+        print("After dispatch", req.url)
+
+
+app.add_middleware(SimpleCustomMiddleware)
+```
+
 ## Features
 
 - WSGI compatible
@@ -223,6 +243,7 @@ show the exception message. If the raised exception is not an HTTPError and if `
 - Support for templates
 - Support for static files
 - Custom exception handler
+- Middleware
 
 ## Note
 
