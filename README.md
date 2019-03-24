@@ -220,6 +220,9 @@ You can create custom middleware classes by inheriting from the `alcazar.middlew
 that are called before and after each request:
 
 ```python
+from alcazar import Alcazar
+from alcazar.middleware import Middleware
+
 app = Alcazar()
 
 
@@ -250,14 +253,9 @@ app.add_middleware(SimpleCustomMiddleware)
 It is extremely raw and will hopefully keep improving. If you are interested in knowing how a particular feature is implemented in other
 frameworks, please open an issue and we will hopefully implement and explain it in a blog post.
 
-## TODO:
-
-- add allowed methods to `api.route()` should work only for function based handlers
-- in tests, create a factory function/class that creates handlers (function based, class based)
-
 
 ## TODO for blog:
 
-- static files support
 - custom exception handlers
+- static files support
 - middleware
