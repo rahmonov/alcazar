@@ -61,7 +61,7 @@ def tell_age(req, resp, age):
     resp.text = f"Your age is {age}"
 
 
-@app.route("/{name:s}")
+@app.route("/{name:l}")
 class GreetingHandler:
     def get(self, req, resp, name):
         resp.text = f"Hello, {name}"
@@ -94,7 +94,7 @@ gunicorn app:app
 If you use class based handlers, only the methods that you implement will be allowed:
 
 ```python
-@app.route("/{name:s}")
+@app.route("/{name:l}")
 class GreetingHandler:
     def get(self, req, resp, name):
         resp.text = f"Hello, {name}"
@@ -179,7 +179,7 @@ Then you can use the files inside this folder in HTML files:
   <meta charset="UTF-8">
   <title>{{title}}</title>
 
-  <link href="/main.css" rel="stylesheet" type="text/css">
+  <link href="/static/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
