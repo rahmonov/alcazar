@@ -1,7 +1,7 @@
 import pytest
 
 from alcazar.exceptions import HTTPError
-from utils.tests import url
+from alcazar.utils.tests import url
 
 
 def test_class_based_handler_get(app, client):

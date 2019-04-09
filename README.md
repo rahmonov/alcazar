@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/rahmonov/alcazar/blob/master/alcazar.jpg">
+    <img src="https://github.com/rahmonov/alcazar/blob/master/alcazar.jpg?raw=True">
 </p>
 
 ---
@@ -34,7 +34,7 @@ If you like them, show some love by staring their repos.
 Install it:
 
 ```bash
-# TODO: pip install alcazar-web-framework
+pip install alcazar-web-framework
 ```
 
 Basic Usage:
@@ -142,7 +142,7 @@ def test_parameterized_route(app, client):
 Note that there is a `url()` function used. It is used to generate the absolute url of the request given a relative url. Import it before usage:
 
 ```python
-from utils.tests import url
+from alcazar.utils.tests import url
 ```
 
 ## Templates

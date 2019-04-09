@@ -9,7 +9,7 @@ from .middleware import Middleware
 from .route import Route
 from .responses import Response
 from .templates import get_templates_env
-from utils import empty_wsgi_app, cut_static_root, request_for_static
+from .utils import empty_wsgi_app, cut_static_root, request_for_static
 
 
 class Alcazar:

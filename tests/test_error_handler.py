@@ -1,6 +1,6 @@
 import pytest
 
-from utils.tests import url
+from alcazar.utils.tests import url
 
 
 def test_custom_error_handler(app, client):

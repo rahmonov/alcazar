@@ -1,4 +1,4 @@
-from utils.tests import url
+from alcazar.utils.tests import url
 
 
 def test_json_response_helper(app, client):

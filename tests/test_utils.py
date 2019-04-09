@@ -1,6 +1,6 @@
 import pytest
 
-from utils import request_for_static, cut_static_root
+from alcazar.utils import request_for_static, cut_static_root
 
 
 @pytest.mark.parametrize(

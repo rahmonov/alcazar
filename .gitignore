@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache
 app.py
 static
+*.egg-info
+dist
+build

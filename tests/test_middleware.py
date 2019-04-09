@@ -1,5 +1,5 @@
 from alcazar.middleware import Middleware
-from utils import url
+from alcazar.utils import url
 
 
 def test_middleware_methods_are_called(app, client):
