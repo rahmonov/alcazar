@@ -27,7 +27,7 @@ If you like them, show some love by staring their repos.
 - [Part I: Intro, API, request handlers, routing (both simple and parameterized)](http://rahmonov.me/posts/write-python-framework-part-one/)
 - [Part II: class based handlers, route overlap check, unit tests](http://rahmonov.me/posts/write-python-framework-part-two/)
 - [Part III: templates support, test client, django way of adding routes](http://rahmonov.me/posts/write-python-framework-part-three/)
-- [Part IV: coming soon...]
+- [Part IV: custom exception handler, support for static files, middleware](http://rahmonov.me/posts/write-python-framework-part-four/)
 
 ## Quick Start
 
@@ -252,10 +252,3 @@ app.add_middleware(SimpleCustomMiddleware)
 
 It is extremely raw and will hopefully keep improving. If you are interested in knowing how a particular feature is implemented in other
 frameworks, please open an issue and we will hopefully implement and explain it in a blog post.
-
-
-## TODO for blog:
-
-- custom exception handlers
-- static files support
-- middleware
