@@ -237,10 +237,61 @@ class SimpleCustomMiddleware(Middleware):
 app.add_middleware(SimpleCustomMiddleware)
 ```
 
+### ORM
+
+Alcazar has a built-in ORM. Here is how you can use it:
+
+
+```python
+# connect to database
+from alcazar.orm import Database
+
+db = Database("./test.db")
+
+# define tables
+class Author(Table):
+    name = Column(str)
+    age = Column(int)
+
+class Book(Table):
+    title = Column(str)
+    published = Column(bool)
+    author = ForeignKey(Author)
+
+# create tables
+db.create(Author)
+db.create(Book)
+
+# create an instance and insert a row
+greg = Author(name="George", age=13)
+db.save(greg)
+
+# fetch all rows
+authors = db.all(Author)
+
+# get a specific row
+author = db.get(Author, 47)
+
+# save an object with a foreign key
+book = Book(title="Building an ORM", published=True, author=greg)
+db.save(book)
+
+# fetch an object with a forein key
+print(Book.get(55).author.name)
+
+# update an object
+book.title = "How to build an ORM"
+db.update(book)
+
+# delete an object
+db.delete(Book, id=book.id)
+```
+
 ## Features
 
 - WSGI compatible
-- Basic and parameterized routing
+- Built-in ORM
+- Parameterized and basic routing
 - Class based handlers
 - Test Client
 - Support for templates
